@@ -1,0 +1,25 @@
+1/Idle_0.png
+1/Idle_1.png
+1/Idle_2.png
+1/Idle_3.png
+1/Idle_4.png
+1/Idle_5.png
+Brain Monster/BrainMonster_0.png
+Brain Monster/BrainMonster_1.png
+Brain Monster/BrainMonster_2.png
+Brain Monster/BrainMonster_3.png
+background.png
+bullet.png
+libgdx.png
+skin/font-export.fnt
+skin/font-subtitle-export.fnt
+skin/font-title-export.fnt
+skin/pixthulhu-ui.atlas
+skin/pixthulhu-ui.json
+skin/pixthulhu-ui.png
+smg/SMGReload_0.png
+smg/SMGReload_1.png
+smg/SMGReload_2.png
+smg/SMGReload_3.png
+smg/SMGStill.png
+smg/T_DualSMGs_Icon.png
