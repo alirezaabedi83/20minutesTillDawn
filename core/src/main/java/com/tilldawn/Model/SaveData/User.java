@@ -9,6 +9,7 @@ public class User implements Serializable {
     private String password;
     private String securityQuestion;
     private String securityAnswer;
+    private String avatarString;
     private int lastRound;
     private int score;
     private int killCount;
@@ -23,6 +24,9 @@ public class User implements Serializable {
         this.score = 0;
         this.killCount = 0;
         this.accuracy = 0;
+        int randomAvatar = (int) Math.random() *3 +1;
+        this.avatarString = "/home/alireza/20minutesTillDawn/assets/Images/Avatars/"+randomAvatar+".png";
+
     }
 
     // Getters and setters
@@ -42,4 +46,12 @@ public class User implements Serializable {
     public void setScore(int score) { this.score = score; }
     public void setKillCount(int killCount) { this.killCount = killCount; }
     public void setAccuracy(int accuracy) { this.accuracy = accuracy; }
+
+    public String getAvatarString() {
+        return avatarString;
+    }
+
+    public void setAvatarString(String avatarString) {
+        this.avatarString = avatarString;
+    }
 }

@@ -32,8 +32,13 @@ public class PreGameMenuView implements Screen {
         this.heroSelectBox = new SelectBox<>(skin);
         this.weaponSelectBox = new SelectBox<>(skin);
         this.durationSelectBox = new SelectBox<>(skin);
+
+        skin.add("default-hero", GameAssetManager.getGameAssetManager().getSmgTexture());
         this.heroPreview = new Image(skin.getDrawable("default-hero"));
-        this.weaponPreview = new Image(skin.getDrawable("default-weapon"));
+
+        skin.add("default-hero", GameAssetManager.getGameAssetManager().getSmgTexture());
+        this.weaponPreview = new Image(skin.getDrawable("default-hero"));
+
 
         // Setup options
         Array<String> heroes = new Array<>();
