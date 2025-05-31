@@ -1,6 +1,8 @@
 package com.tilldawn;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tilldawn.Control.LoginController;
 import com.tilldawn.Model.GameAssetManager;
@@ -97,4 +99,5 @@ public class Main extends Game {
     public static void setFiredCount(int firedCount) {
         Main.firedCount = firedCount;
     }
+
 }

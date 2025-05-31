@@ -5,25 +5,48 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Weapon {
-    private final Texture smgTexture = new Texture(GameAssetManager.getGameAssetManager().getSmg());
-    private Sprite smgSprite = new Sprite(smgTexture);
-    private int ammo = 30;
+    private Sprite weaponSprite;
+    private int ammo;
+    private int maxAmmo;
+    private float reloadTime;
+    private int damage;
+    private String type;
 
-    public Weapon(){
-        smgSprite.setX((float) Gdx.graphics.getWidth() / 2 );
-        smgSprite.setY((float) Gdx.graphics.getHeight() / 2);
-        smgSprite.setSize(50,50);
+    public Weapon(String type) {
+        this.type = type;
+        switch (type) {
+            case "Revolver":
+                this.maxAmmo = 6;
+                this.reloadTime = 1.5f;
+                this.damage = 20;
+                break;
+            case "Shotgun":
+                this.maxAmmo = 2;
+                this.reloadTime = 1.5f;
+                this.damage = 10;
+                break;
+            case "SMG":
+                this.maxAmmo = 24;
+                this.reloadTime = 2.5f;
+                this.damage = 8;
+                break;
+            default:
+                this.maxAmmo = 6;
+                this.reloadTime = 1.5f;
+                this.damage = 20;
+        }
+        this.ammo = maxAmmo;
+        this.weaponSprite = new Sprite(GameAssetManager.getGameAssetManager().getSmgTexture());
+        this.weaponSprite.setSize(50, 50);
+        weaponSprite.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
     }
 
-    public Sprite getSmgSprite() {
-        return smgSprite;
-    }
-
-    public int getAmmo() {
-        return ammo;
-    }
-
-    public void setAmmo(int ammo){
-        this.ammo = ammo;
-    }
+    // Getters and Setters
+    public Sprite getWeaponSprite() { return weaponSprite; }
+    public int getAmmo() { return ammo; }
+    public void setAmmo(int ammo) { this.ammo = ammo; }
+    public int getMaxAmmo() { return maxAmmo; }
+    public float getReloadTime() { return reloadTime; }
+    public int getDamage() { return damage; }
+    public String getType() { return type; }
 }

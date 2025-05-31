@@ -1,23 +1,25 @@
 package com.tilldawn.Control;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.tilldawn.Main;
 
 public class WorldController {
     private PlayerController playerController;
+    private OrthographicCamera camera;
     private Texture backgroundTexture;
     private float backgroundX = 0;
     private float backgroundY = 0;
 
-    public WorldController(PlayerController playerController) {
+    public WorldController(OrthographicCamera camera) {
         this.backgroundTexture = new Texture("background.png");
-        this.playerController = playerController;
+        this.camera = camera;
     }
 
     public void update() {
-        backgroundX = playerController.getPlayer().getPosX();
-        backgroundY = playerController.getPlayer().getPosY();
-        Main.getBatch().draw(backgroundTexture, backgroundX, backgroundY);
+        Main.getBatch().setProjectionMatrix(camera.combined);
+        Main.getBatch().draw(backgroundTexture,-Gdx.graphics.getWidth(), -Gdx.graphics.getHeight());
     }
 
 }

@@ -2,6 +2,7 @@ package com.tilldawn.Control;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.tilldawn.Main;
@@ -9,37 +10,95 @@ import com.tilldawn.Model.GameAssetManager;
 import com.tilldawn.Model.Player;
 
 public class PlayerController {
+    public OrthographicCamera camera;
     private Player player;
+    private boolean isInvincible = false;
+    private float invincibleTimer = 0;
+    private int level = 1;
+    private int experience = 0;
+    private int experienceToNextLevel = 60; // 60 XP for level 1->2
 
-    public PlayerController(Player player){
+    public PlayerController(Player player, OrthographicCamera camera){
         this.player = player;
+        this.camera=camera;
     }
 
-    public void update(){
+    public void update(float delta) {
+        camera.position.set(player.getPosX() + player.getPlayerSprite().getWidth() / 2f,
+                player.getPosY() + player.getPlayerSprite().getHeight() / 2f,
+                0);
+        camera.update();
+
         player.getPlayerSprite().draw(Main.getBatch());
+
+        handlePlayerInput(delta);
+        updateInvincibility(delta);
 
         if(player.isPlayerIdle()){
             idleAnimation();
         }
+    }
 
-        handlePlayerInput();
+    private void updateInvincibility(float delta) {
+        if (isInvincible) {
+            invincibleTimer -= delta;
+            if (invincibleTimer <= 0) {
+                isInvincible = false;
+            }
+        }
     }
 
 
-    public void handlePlayerInput(){
-        if (Gdx.input.isKeyPressed(Input.Keys.W)){
-            player.setPosY(player.getPosY() - player.getSpeed());
+    public void handlePlayerInput(float delta) {
+        float moveX = 0, moveY = 0;
+
+        // Basic WASD movement
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) moveY += 1;
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) moveY -= 1;
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) moveX -= 1;
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) moveX += 1;
+
+        // Diagonal movement normalization
+        if (moveX != 0 && moveY != 0) {
+            float len = (float)Math.sqrt(moveX * moveX + moveY * moveY);
+            moveX /= len;
+            moveY /= len;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)){
-            player.setPosX(player.getPosX() - player.getSpeed());
+
+        // Apply movement
+        player.setPosX(player.getPosX() + moveX * player.getSpeed() * delta);
+        player.setPosY(player.getPosY() + moveY * player.getSpeed() * delta);
+
+        float playerX = player.getPosX();
+        float playerY = player.getPosY();
+        player.getPlayerSprite().setPosition(playerX, playerY);
+        player.getWeapon().getWeaponSprite().setPosition(playerX,playerY);
+
+        // Update collision rect
+        player.getRect().move(player.getPosX(), player.getPosY());
+    }
+
+    public void takeDamage(int damage) {
+        if (!isInvincible) {
+            player.setPlayerHealth(player.getPlayerHealth() - damage);
+            isInvincible = true;
+            invincibleTimer = 1.0f; // 1 second invincibility
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)){
-            player.setPosY(player.getPosY() + player.getSpeed());
+    }
+
+    public void gainExperience(int amount) {
+        experience += amount;
+        if (experience >= experienceToNextLevel) {
+            levelUp();
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)){
-            player.setPosX(player.getPosX() + player.getSpeed());
-            player.getPlayerSprite().flip(true, false);
-        }
+    }
+
+    private void levelUp() {
+        level++;
+        experience -= experienceToNextLevel;
+        experienceToNextLevel = 20 * level + 40; // Formula for next level XP
+
+        // TODO: Implement ability selection
     }
 
 
@@ -64,5 +123,13 @@ public class PlayerController {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }
