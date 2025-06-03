@@ -17,7 +17,21 @@ public class Player {
     private boolean isPlayerIdle = true;
     private boolean isPlayerRunning = false;
 
-    public Player() {
+    public Player(String heroName) {
+        switch (heroName) {
+            case "Hero 1":
+                this.speed = 40;
+                this.playerHealth = 4;
+                break;
+            case "Hero 2":
+                this.speed = 10;
+                this.playerHealth = 7;
+                break;
+            case "Hero 3":
+                this.speed = 50;
+                this.playerHealth = 3;
+                break;
+        }
         this.weapon=new Weapon("SMG");
         playerTexture = new Texture(GameAssetManager.getGameAssetManager().getCharacter1_idle0());
         playerSprite = new Sprite(playerTexture);

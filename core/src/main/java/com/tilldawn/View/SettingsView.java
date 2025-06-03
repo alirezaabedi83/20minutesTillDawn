@@ -7,36 +7,43 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.tilldawn.Control.SettingsController;
-import com.tilldawn.Main;
 import com.tilldawn.Model.GameAssetManager;
 
 public class SettingsView implements Screen {
     private Stage stage;
-    private final TextButton backButton;
-    private final Slider volumeSlider;
-    private final Slider musicSlider;
-    private final CheckBox fullscreenCheckbox;
-    private final CheckBox vSyncCheckbox;
-    private final CheckBox autoReloadCheckbox;
-    private final CheckBox grayscaleCheckbox;
-    private final SelectBox<String> resolutionSelectBox;
     private Table table;
-    private SettingsController controller;
+    private final SettingsController controller;
+
+    private final TextButton backButton;
+    private final Slider musicVolumeSlider;
+    private final CheckBox sfxToggle;
+    private final CheckBox grayscaleToggle;
+    private final SelectBox<String> musicSelectBox;
+    private final CheckBox autoReloadToggle;
+
+
+    private final TextField upKeyField;
+    private final TextField downKeyField;
+    private final TextField leftKeyField;
+    private final TextField rightKeyField;
 
     public SettingsView(SettingsController controller, Skin skin) {
         this.controller = controller;
-        this.backButton = new TextButton("Back", skin);
-        this.volumeSlider = new Slider(0, 100, 1, false, skin);
-        this.musicSlider = new Slider(0, 100, 1, false, skin);
-        this.fullscreenCheckbox = new CheckBox(" Fullscreen", skin);
-        this.vSyncCheckbox = new CheckBox(" VSync", skin);
-        this.autoReloadCheckbox = new CheckBox(" Auto Reload", skin);
-        this.grayscaleCheckbox = new CheckBox(" Grayscale Mode", skin);
-        this.resolutionSelectBox = new SelectBox<>(skin);
 
-        // Set up resolution options
-        String[] resolutions = {"800x600", "1024x768", "1280x720", "1366x768", "1920x1080"};
-        resolutionSelectBox.setItems(resolutions);
+        this.backButton = new TextButton("Back", skin);
+        this.musicVolumeSlider = new Slider(0, 100, 1, false, skin);
+        this.sfxToggle = new CheckBox(" Enable SFX", skin);
+        this.grayscaleToggle = new CheckBox(" Grayscale Mode", skin);
+        this.autoReloadToggle = new CheckBox(" Auto Reload", skin);
+
+
+        this.musicSelectBox = new SelectBox<>(skin);
+        musicSelectBox.setItems("Track 1", "Track 2", "Track 3");
+
+        this.upKeyField = new TextField("W", skin);
+        this.downKeyField = new TextField("S", skin);
+        this.leftKeyField = new TextField("A", skin);
+        this.rightKeyField = new TextField("D", skin);
 
         controller.setView(this);
     }
@@ -52,23 +59,38 @@ public class SettingsView implements Screen {
 
         table.add(new Label("Settings", GameAssetManager.getGameAssetManager().getSkin())).colspan(2).padBottom(30);
         table.row();
-        table.add(new Label("Sound Volume:", GameAssetManager.getGameAssetManager().getSkin())).padRight(20);
-        table.add(volumeSlider).width(300).padBottom(10);
-        table.row();
+
         table.add(new Label("Music Volume:", GameAssetManager.getGameAssetManager().getSkin())).padRight(20);
-        table.add(musicSlider).width(300).padBottom(10);
+        table.add(musicVolumeSlider).width(300).padBottom(15);
         table.row();
-        table.add(new Label("Resolution:", GameAssetManager.getGameAssetManager().getSkin())).padRight(20);
-        table.add(resolutionSelectBox).width(300).padBottom(10);
+
+        table.add(new Label("Music Track:", GameAssetManager.getGameAssetManager().getSkin())).padRight(20);
+        table.add(musicSelectBox).width(200).padBottom(15);
         table.row();
-        table.add(fullscreenCheckbox).colspan(2).padBottom(5);
+
+        table.add(sfxToggle).colspan(2).padBottom(15);
         table.row();
-        table.add(vSyncCheckbox).colspan(2).padBottom(5);
+
+        table.add(grayscaleToggle).colspan(2).padBottom(20);
         table.row();
-        table.add(autoReloadCheckbox).colspan(2).padBottom(5);
+
+        table.add(autoReloadToggle).colspan(2).padBottom(10);
         table.row();
-        table.add(grayscaleCheckbox).colspan(2).padBottom(20);
+
+
+        table.add(new Label("Up Key:", GameAssetManager.getGameAssetManager().getSkin())).padRight(20);
+        table.add(upKeyField).width(100).padBottom(10);
         table.row();
+        table.add(new Label("Down Key:", GameAssetManager.getGameAssetManager().getSkin())).padRight(20);
+        table.add(downKeyField).width(100).padBottom(10);
+        table.row();
+        table.add(new Label("Left Key:", GameAssetManager.getGameAssetManager().getSkin())).padRight(20);
+        table.add(leftKeyField).width(100).padBottom(10);
+        table.row();
+        table.add(new Label("Right Key:", GameAssetManager.getGameAssetManager().getSkin())).padRight(20);
+        table.add(rightKeyField).width(100).padBottom(30);
+        table.row();
+
         table.add(backButton).colspan(2).width(200);
 
         stage.addActor(table);
@@ -82,62 +104,24 @@ public class SettingsView implements Screen {
         controller.handleButtons();
     }
 
-    @Override
-    public void resize(int i, int i1) {
+    // باقی متدهای اساسی
+    @Override public void resize(int width, int height) {}
+    @Override public void pause() {}
+    @Override public void resume() {}
+    @Override public void hide() {}
+    @Override public void dispose() {}
 
+    public TextButton getBackButton() { return backButton; }
+    public Slider getMusicVolumeSlider() { return musicVolumeSlider; }
+    public CheckBox getSfxToggle() { return sfxToggle; }
+    public CheckBox getGrayscaleToggle() { return grayscaleToggle; }
+    public SelectBox<String> getMusicSelectBox() { return musicSelectBox; }
+    public TextField getUpKeyField() { return upKeyField; }
+    public TextField getDownKeyField() { return downKeyField; }
+    public TextField getLeftKeyField() { return leftKeyField; }
+    public TextField getRightKeyField() { return rightKeyField; }
+    public CheckBox getAutoReloadToggle() {
+        return autoReloadToggle;
     }
 
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
-
-    // Other required Screen methods...
-
-    public TextButton getBackButton() {
-        return backButton;
-    }
-
-    public Slider getVolumeSlider() {
-        return volumeSlider;
-    }
-
-    public Slider getMusicSlider() {
-        return musicSlider;
-    }
-
-    public CheckBox getFullscreenCheckbox() {
-        return fullscreenCheckbox;
-    }
-
-    public CheckBox getVSyncCheckbox() {
-        return vSyncCheckbox;
-    }
-
-    public CheckBox getAutoReloadCheckbox() {
-        return autoReloadCheckbox;
-    }
-
-    public CheckBox getGrayscaleCheckbox() {
-        return grayscaleCheckbox;
-    }
-
-    public SelectBox<String> getResolutionSelectBox() {
-        return resolutionSelectBox;
-    }
 }

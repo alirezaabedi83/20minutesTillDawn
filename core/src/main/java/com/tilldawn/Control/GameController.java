@@ -4,27 +4,29 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.tilldawn.Main;
 import com.tilldawn.Model.EnemySpawner;
+import com.tilldawn.Model.Game;
 import com.tilldawn.Model.Player;
 import com.tilldawn.Model.Weapon;
 import com.tilldawn.View.GameView;
 
 public class GameController {
+    public static final float TOTAL_TIME = 1;
     private GameView view;
     private PlayerController playerController;
     private WorldController worldController;
     private WeaponController weaponController;
     private EnemySpawner enemySpawner;
-    private float gameTime = 0;
-    private float gameDuration = 20 * 60; // 20 minutes in seconds
 
     public void setView(GameView view ,OrthographicCamera camera) {
         this.view = view;
 
-        Player player = new Player();
+        Player player = Game.getInstance().getCurrentPlayer();
+        if (player == null) player = new Player("Hero 1");
         playerController = new PlayerController(player,camera);
         worldController = new WorldController(camera);
         weaponController = new WeaponController(new Weapon("SMG"), player);
         enemySpawner = new EnemySpawner();
+        weaponController.setEnemySpawner(enemySpawner);
 
         // Set up camera
 
@@ -32,7 +34,6 @@ public class GameController {
 
     public void updateGame(float delta) {
         if (view != null) {
-            gameTime += delta;
 
             // Update all systems
             worldController.update();
@@ -40,13 +41,16 @@ public class GameController {
             weaponController.update(delta);
             enemySpawner.update(delta, playerController.getPlayer());
 
+            Game.getInstance().incrementElapsedTime(delta);
+
+            if (Game.getInstance().getElapsedTime() >= Game.getInstance().getTotalGameTime()) {
+                gameOver(true);
+            }
+
             // Check for game over conditions
             if (playerController.getPlayer().getPlayerHealth() <= 0) {
                 // Player died
                 gameOver(false);
-            } else if (gameTime >= gameDuration) {
-                // Time's up - player survived
-                gameOver(true);
             }
         }
     }
@@ -98,22 +102,5 @@ public class GameController {
     public void setEnemySpawner(EnemySpawner enemySpawner) {
         this.enemySpawner = enemySpawner;
     }
-
-    public float getGameTime() {
-        return gameTime;
-    }
-
-    public void setGameTime(float gameTime) {
-        this.gameTime = gameTime;
-    }
-
-    public float getGameDuration() {
-        return gameDuration;
-    }
-
-    public void setGameDuration(float gameDuration) {
-        this.gameDuration = gameDuration;
-    }
-
 
 }

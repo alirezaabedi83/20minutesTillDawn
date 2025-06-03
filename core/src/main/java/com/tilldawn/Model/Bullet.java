@@ -10,10 +10,10 @@ import com.tilldawn.Main;
 public class Bullet {
     private Texture texture = new Texture(GameAssetManager.getGameAssetManager().getBullet());
     private Sprite sprite = new Sprite(texture);
+    private CollisionRect rect ;
     private int x;
     private int y;
-    private Vector2 velocity = new Vector2();
-    private int damage;
+    private int damage =50;
     private boolean active = true;
 
     public Bullet(int x, int y,Player player){
@@ -22,7 +22,7 @@ public class Bullet {
         this.y = y;
         sprite.setX(player.getPosX());
         sprite.setY(player.getPosY());
-//        collisionRect=new CollisionRect(x,y,sprite.getWidth(),sprite.getHeight());
+        rect=new CollisionRect(x,y,sprite.getWidth(),sprite.getHeight());
     }
 
 //    public void update(float delta) {
@@ -59,5 +59,13 @@ public class Bullet {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public CollisionRect getRect() {
+        return rect;
+    }
+
+    public void setRect(CollisionRect rect) {
+        this.rect = rect;
     }
 }

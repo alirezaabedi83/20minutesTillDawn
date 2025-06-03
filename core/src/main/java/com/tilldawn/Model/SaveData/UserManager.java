@@ -110,4 +110,12 @@ public class UserManager {
     public boolean isLoggedIn() {
         return currentUser != null;
     }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 }

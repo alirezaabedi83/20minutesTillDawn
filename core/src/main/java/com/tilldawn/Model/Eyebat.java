@@ -6,22 +6,23 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Eyebat extends Enemy {
     private float shootTimer = 0;
-    private static final float SHOOT_INTERVAL = 3.0f;
 
     public Eyebat(float x, float y) {
-        super(x, y, 50, 40);
-        this.sprite = new Sprite(GameAssetManager.getGameAssetManager().getSmgTexture());
-        this.sprite.setSize(32, 32);
+        super(x, y, 50, 50, GameAssetManager.getGameAssetManager().getEyebatMonster());
     }
 
     @Override
     public void update(float delta, Player player) {
-        moveTowards(new Vector2(player.getPosX(), player.getPosY()), delta);
-
         shootTimer += delta;
-        if (shootTimer >= SHOOT_INTERVAL) {
+        Vector2 dir = new Vector2(player.getPosX() - x, player.getPosY() - y).nor();
+        x += dir.x * speed * delta;
+        y += dir.y * speed * delta;
+        sprite.setPosition(x, y);
+        rect.move(x, y);
+
+        if (shootTimer >= 3f) {
             shootTimer = 0;
-            // TODO: Implement shooting projectile at player
+//            BulletManager.spawnEnemyBullet(x, y, player.getPosX(), player.getPosY());
         }
     }
 }

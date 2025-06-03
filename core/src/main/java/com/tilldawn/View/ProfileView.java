@@ -150,4 +150,12 @@ public class ProfileView implements Screen {
     public Image getAvatarImage() {
         return avatarImage;
     }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 }

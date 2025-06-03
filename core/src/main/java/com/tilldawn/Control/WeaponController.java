@@ -7,10 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Timer;
 import com.tilldawn.Main;
-import com.tilldawn.Model.Bullet;
-import com.tilldawn.Model.Player;
-import com.tilldawn.Model.Weapon;
-import com.tilldawn.Model.EnemySpawner;
+import com.tilldawn.Model.*;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -77,21 +75,15 @@ public class WeaponController {
                 }
             }, delay);
 //        }
-//        Main.getCamera().unproject(worldCoords);
 
-//        bullets.add(new Bullet(
-//                player.getPosX() + player.getPlayerSprite().getWidth()/2,
-//                player.getPosY() + player.getPlayerSprite().getHeight()/2,
-//                worldCoords.x,
-//                worldCoords.y,
-//                weapon.getDamage()
-//        ));
 
         weapon.setAmmo(weapon.getAmmo() - 1);
 
-        if (weapon.getAmmo() <= 0 && !isReloading) {
+        if (weapon.getAmmo() <= 0 && !isReloading && GameSettings.getInstance().isAutoReload()) {
             startReload();
         }
+
+
     }
 
     public void startReload() {
@@ -117,26 +109,20 @@ public class WeaponController {
                 ).nor();
                 b.getSprite().setX(b.getSprite().getX() - direction.x * 5);
                 b.getSprite().setY(b.getSprite().getY() + direction.y * 5);
+                b.getRect().move(b.getSprite().getX(),b.getSprite().getY());
+
+                if (enemySpawner != null) {
+                    for (Enemy enemy : enemySpawner.getEnemies()) {
+                        if (b.getRect().collidesWith(enemy.getRect())) {
+                            enemy.takeDamage(b.getDamage());
+                            player.gainExperience(3);
+
+                            iterator.remove();
+                            break;
+                        }
+                    }
+                }
             }
-
-//            if (!bullet.isActive()) {
-//                bullets.remove(bullet);
-//                continue;
-//            }
-//
-//            // Check enemy collisions
-//            if (enemySpawner != null) {
-//                for (Enemy enemy : enemySpawner.getActiveEnemies()) {
-//                    if (bullet.getSprite().getBoundingRectangle().overlaps(enemy.getSprite().getBoundingRectangle())) {
-//                        if (enemy.takeDamage(bullet.getDamage())) {
-//                            player.gainExperience(3);
-//                        }
-//                        bullets.remove(bullet);
-//                        break;
-//                    }
-//                }
-//            }
-
     }
 
     public Weapon getWeapon() {

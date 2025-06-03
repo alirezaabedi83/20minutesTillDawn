@@ -1,73 +1,59 @@
 package com.tilldawn.Model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.tilldawn.Main;
 import com.tilldawn.Model.Enemy;
 import com.tilldawn.Model.Player;
 import com.tilldawn.Model.TentacleMonster;
 import com.tilldawn.Model.Eyebat;
-
+import com.tilldawn.Control.GameController;
 import java.util.Random;
 
 public class EnemySpawner {
-    private Array<Enemy> activeEnemies = new Array<>();
-    private float spawnTimer = 0;
     private float gameTime = 0;
-    private float spawnRate = 3.0f;
-    private Random random = new Random();
+    private float spawnTimer = 0;
+    private Array<Enemy> enemies = new Array<>();
+    private boolean bossSpawned = false;
 
     public void update(float delta, Player player) {
         gameTime += delta;
         spawnTimer += delta;
 
-        // Increase spawn rate over time
-        spawnRate = Math.max(0.5f, 3.0f - (gameTime / 60f));
-
-        if (spawnTimer >= spawnRate) {
+        if (gameTime > 30 && spawnTimer >= 3) {
             spawnTimer = 0;
-            spawnEnemy(player);
+            enemies.add(new TentacleMonster(randomEdgeX(), randomEdgeY()));
         }
 
-        for (Enemy enemy : activeEnemies) {
-            enemy.update(delta, player);
+        if (gameTime > 30 && ((int)gameTime % 10 == 0)) {
+            enemies.add(new Eyebat(randomEdgeX(), randomEdgeY()));
+        }
 
-            if (enemy.collidesWith(player.getRect())) {
-                player.takeDamage(10);
+        if (!bossSpawned && gameTime >= GameController.TOTAL_TIME / 2f) {
+            enemies.add(new ElderBoss(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f));
+            bossSpawned = true;
+        }
+
+        for (int i = enemies.size - 1; i >= 0; i--) {
+            Enemy e = enemies.get(i);
+            e.update(delta, player);
+            System.out.println(e.hp);
+            if(!e.isDead())   e.draw(Main.getBatch());
+            if (e.isDead()) {
+                DropManager.spawnDrop(e.getX(), e.getY());
+                enemies.removeIndex(i);
             }
         }
-
-        for (int i = activeEnemies.size - 1; i >= 0; i--) {
-            if (activeEnemies.get(i).getHealth() <= 0) {
-                activeEnemies.removeIndex(i);
-            }
-        }
     }
 
-    private void spawnEnemy(Player player) {
-        float x, y;
-        if (random.nextBoolean()) {
-            x = random.nextBoolean() ? -50 : Gdx.graphics.getWidth() + 50;
-            y = random.nextFloat() * Gdx.graphics.getHeight();
-        } else {
-            x = random.nextFloat() * Gdx.graphics.getWidth();
-            y = random.nextBoolean() ? -50 : Gdx.graphics.getHeight() + 50;
-        }
-
-        Enemy enemy;
-        if (random.nextFloat() < 0.7f) {
-            enemy = new TentacleMonster(x, y);
-        } else {
-            enemy = new Eyebat(x, y);
-        }
-
-        activeEnemies.add(enemy);
+    private float randomEdgeX() {
+        return MathUtils.randomBoolean() ? 0 : Gdx.graphics.getWidth();
     }
 
-    public Array<Enemy> getActiveEnemies() {
-        return activeEnemies;
+    private float randomEdgeY() {
+        return MathUtils.randomBoolean() ? 0 : Gdx.graphics.getHeight();
     }
 
-    public float getGameTime() {
-        return gameTime;
-    }
+    public Array<Enemy> getEnemies() { return enemies; }
 }

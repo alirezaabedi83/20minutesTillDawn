@@ -6,14 +6,17 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tilldawn.Control.LoginController;
 import com.tilldawn.Model.GameAssetManager;
+import com.tilldawn.Model.MusicManager;
 import com.tilldawn.Model.SaveData.User;
 import com.tilldawn.Model.SaveData.UserManager;
 import com.tilldawn.View.LoginView;
+import com.badlogic.gdx.audio.Music;
 
 public class Main extends Game {
     private static Main main;
     private static SpriteBatch batch;
     public static User currentUser;
+    private Music backgroundMusic;
     public static int killCount;
     public static int hitCount;
     public static int firedCount;
@@ -22,6 +25,10 @@ public class Main extends Game {
     public void create() {
         main = this;
         batch = new SpriteBatch();
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/1.mp3"));
+        backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(0.5f);
+        backgroundMusic.play();
         getMain().setScreen(new LoginView(new LoginController(), GameAssetManager.getGameAssetManager().getSkin()));
     }
 
@@ -33,6 +40,9 @@ public class Main extends Game {
     @Override
     public void dispose() {
         batch.dispose();
+        if (backgroundMusic != null) {
+            backgroundMusic.dispose();
+        }
     }
 
     public static Main getMain() {
@@ -99,5 +109,14 @@ public class Main extends Game {
     public static void setFiredCount(int firedCount) {
         Main.firedCount = firedCount;
     }
+    public static Music getBackgroundMusic() {
+        return main.backgroundMusic;
+    }
+
+    public void setBackgroundMusic(Music music) {
+        this.backgroundMusic = music;
+    }
+
+
 
 }

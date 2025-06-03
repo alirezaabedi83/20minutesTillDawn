@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.tilldawn.Main;
 import com.tilldawn.Model.GameAssetManager;
+import com.tilldawn.Model.GameSettings;
 import com.tilldawn.Model.Player;
 
 public class PlayerController {
@@ -52,12 +53,15 @@ public class PlayerController {
     public void handlePlayerInput(float delta) {
         float moveX = 0, moveY = 0;
 
-        // Basic WASD movement
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) moveY += 1;
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) moveY -= 1;
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) moveX -= 1;
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) moveX += 1;
+        String keyUp = GameSettings.getInstance().getKeyUp().toUpperCase();
+        String keyDown = GameSettings.getInstance().getKeyDown().toUpperCase();
+        String keyLeft = GameSettings.getInstance().getKeyLeft().toUpperCase();
+        String keyRight = GameSettings.getInstance().getKeyRight().toUpperCase();
 
+        if (Gdx.input.isKeyPressed(Input.Keys.valueOf(keyUp))) moveY += 1;
+        if (Gdx.input.isKeyPressed(Input.Keys.valueOf(keyDown))) moveY -= 1;
+        if (Gdx.input.isKeyPressed(Input.Keys.valueOf(keyLeft))) moveX -= 1;
+        if (Gdx.input.isKeyPressed(Input.Keys.valueOf(keyRight))) moveX += 1;
         // Diagonal movement normalization
         if (moveX != 0 && moveY != 0) {
             float len = (float)Math.sqrt(moveX * moveX + moveY * moveY);

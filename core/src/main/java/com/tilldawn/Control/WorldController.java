@@ -19,7 +19,7 @@ public class WorldController {
 
     public void update() {
         Main.getBatch().setProjectionMatrix(camera.combined);
-        Main.getBatch().draw(backgroundTexture,-Gdx.graphics.getWidth(), -Gdx.graphics.getHeight());
+        Main.getBatch().draw(backgroundTexture, -(float) Gdx.graphics.getWidth() /2, -(float) Gdx.graphics.getHeight() /2);
     }
 
 }

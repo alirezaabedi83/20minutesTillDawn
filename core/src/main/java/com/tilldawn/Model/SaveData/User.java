@@ -54,4 +54,8 @@ public class User implements Serializable {
     public void setAvatarString(String avatarString) {
         this.avatarString = avatarString;
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

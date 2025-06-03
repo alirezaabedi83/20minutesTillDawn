@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tilldawn.Control.GameController;
 import com.tilldawn.Main;
+import com.tilldawn.Model.Game;
 import com.tilldawn.Model.Player;
 import com.tilldawn.Model.Weapon;
 
@@ -77,7 +78,7 @@ public class GameView implements Screen, InputProcessor {
                         controller.getWeaponController().getWeapon().getMaxAmmo(),
                 20, Gdx.graphics.getHeight() - 50);
         skin.getFont("default").draw(Main.getBatch(),
-                "Time: " + (int)(controller.getGameDuration() - controller.getGameTime()) + "s",
+                "Time: " + (int)(Game.getInstance().getTotalGameTime() - Game.getInstance().getElapsedTime()) + "s",
                 Gdx.graphics.getWidth() - 150, Gdx.graphics.getHeight() - 20);
         skin.getFont("default").draw(Main.getBatch(),
                 "Level: " + controller.getPlayerController().getLevel(),
