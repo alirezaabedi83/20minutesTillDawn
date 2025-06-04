@@ -9,7 +9,7 @@ public class GameAssetManager {
     private static GameAssetManager gameAssetManager;
     private final Skin skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
 
-    private final String character1_idle0 = "1/Idle_0.png";
+    private final String character1_idle0 = "Images/Sprite/Idle/Idle_0.png";
     private final String character1_idle1 = "1/Idle_1.png";
     private final String character1_idle2 = "1/Idle_2.png";
     private final String character1_idle3 = "1/Idle_3.png";
@@ -45,8 +45,11 @@ public class GameAssetManager {
     private final Animation<Texture> character1_idle_frames = new Animation<>(0.1f, character1_idle0_tex, character1_idle1_tex, character1_idle2_tex, character1_idle3_tex, character1_idle4_tex, character1_idle5_tex);
 
 
-    private final String smg = "smg/SMGStill.png";
-    private final Texture smgTexture = new Texture(smg);
+    private final Texture smgTexture =new Texture("smg/SMGStill.png");
+    private final Texture shotgun = new Texture("Images/Texture2D/T/T_DualShotgun_Gun.png");
+    private final Texture revolverTexture =new Texture("Images/Texture2D/T/T_Volley_Gun.png");
+    private final Texture dualSmgTexture =new Texture("smg/T_DualSMGs_Icon.png");
+
 
     private final String bullet = "bullet.png";
 
@@ -78,11 +81,24 @@ public class GameAssetManager {
         return smgTexture;
     }
 
-    public String getSmg(){
-        return smg;
-    }
 
     public String getBullet(){
         return bullet;
+    }
+
+    public String getCharacter1_idle1() {
+        return character1_idle1;
+    }
+
+    public Texture getShotgun() {
+        return shotgun;
+    }
+
+    public Texture getRevolverTexture() {
+        return revolverTexture;
+    }
+
+    public Texture getDualSmgTexture() {
+        return dualSmgTexture;
     }
 }

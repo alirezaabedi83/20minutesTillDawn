@@ -16,8 +16,20 @@ public class UserManager {
     private void loadUsers() {
         try {
             Object loaded = ResourceManager.load();
-            if (loaded instanceof List) {
-                users = (List<User>) loaded;
+            if (loaded instanceof UserDataWrapper) {
+                UserDataWrapper wrapper = (UserDataWrapper) loaded;
+                users = wrapper.getUsers() != null ? wrapper.getUsers() : new ArrayList<>();
+                String currentUsername = wrapper.getCurrentUsername();
+
+                if (currentUsername != null) {
+                    for (User user : users) {
+                        if (user.getUsername().equalsIgnoreCase(currentUsername)) {
+                            currentUser = user;
+                            Main.currentUser = user;
+                            break;
+                        }
+                    }
+                }
             } else {
                 users = new ArrayList<>();
             }
@@ -28,16 +40,15 @@ public class UserManager {
 
     private void saveUsers() {
         try {
-            ResourceManager.save(users);
+            String currentUsername = currentUser != null ? currentUser.getUsername() : null;
+            ResourceManager.save(new UserDataWrapper(users, currentUsername));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public boolean register(String username, String password, String securityQuestion, String securityAnswer) {
-        if (usernameExists(username)) {
-            return false;
-        }
+        if (usernameExists(username)) return false;
 
         User newUser = new User(username, password, securityQuestion, securityAnswer);
         users.add(newUser);
@@ -50,6 +61,7 @@ public class UserManager {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 this.currentUser = user;
                 Main.currentUser = user;
+                saveUsers(); // به‌روزرسانی currentUsername
                 return true;
             }
         }
@@ -59,48 +71,27 @@ public class UserManager {
     public void logout() {
         this.currentUser = null;
         Main.currentUser = null;
-    }
-
-    public String getSecurityQuestion(String username) {
-        for (User user : users) {
-            if (user.getUsername().equals(username)) {
-                return user.getSecurityQuestion();
-            }
-        }
-        return null;
+        saveUsers();
     }
 
     public boolean resetPassword(String username, String answer, String newPassword) {
         for (User user : users) {
             if (user.getUsername().equals(username) &&
-                user.getSecurityAnswer().equalsIgnoreCase(answer)) {
+                    user.getSecurityAnswer().equalsIgnoreCase(answer)) {
                 user.setPassword(newPassword);
                 saveUsers();
-
-                // Update current user if logged in
-                if (currentUser != null && currentUser.getUsername().equals(username)) {
-                    currentUser.setPassword(newPassword);
-                }
                 return true;
             }
         }
         return false;
     }
 
-    public boolean usernameExists(String username) {
-        return users.stream().anyMatch(u -> u.getUsername().equalsIgnoreCase(username));
+    public void saveCurrentUser() {
+        saveUsers(); // هر تغییری انجام بشه، مستقیماً سیو بشه
     }
 
-    public void saveCurrentUser() {
-        if (currentUser != null) {
-            for (int i = 0; i < users.size(); i++) {
-                if (users.get(i).getUsername().equals(currentUser.getUsername())) {
-                    users.set(i, currentUser);
-                    break;
-                }
-            }
-            saveUsers();
-        }
+    public boolean usernameExists(String username) {
+        return users.stream().anyMatch(u -> u.getUsername().equalsIgnoreCase(username));
     }
 
     public User getCurrentUser() {
@@ -117,5 +108,16 @@ public class UserManager {
 
     public void setUsers(List<User> users) {
         this.users = users;
+        saveUsers();
     }
+
+    public String getSecurityQuestion(String username) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return user.getSecurityQuestion();
+            }
+        }
+        return null;
+    }
+
 }

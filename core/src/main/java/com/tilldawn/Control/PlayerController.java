@@ -36,7 +36,7 @@ public class PlayerController {
         updateInvincibility(delta);
 
         if(player.isPlayerIdle()){
-            idleAnimation();
+//            idleAnimation();
         }
     }
 

@@ -1,14 +1,10 @@
 package com.tilldawn.Control;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.tilldawn.Main;
 import com.tilldawn.Model.GameAssetManager;
 import com.tilldawn.Model.SaveData.User;
@@ -16,8 +12,6 @@ import com.tilldawn.Model.SaveData.UserManager;
 import com.tilldawn.View.LoginView;
 import com.tilldawn.View.MainMenuView;
 import com.tilldawn.View.ProfileView;
-
-import java.io.File;
 
 public class ProfileController {
     private ProfileView view;
@@ -37,7 +31,7 @@ public class ProfileController {
         view.getUsernameLabel().setText("Username: " + user.getUsername());
         view.getScoreLabel().setText("Score: " + user.getScore());
         view.getKillsLabel().setText("Kills: " + user.getKillCount());
-        view.getPlaytimeLabel().setText("Playtime: " + user.getLastRound() + "m");
+        view.getPlaytimeLabel().setText("Playtime: " + user.getTimeAlive() + "m");
         view.getAvatarImage().setDrawable(new Image(new Texture(user.getAvatarString())).getDrawable());
     }
 

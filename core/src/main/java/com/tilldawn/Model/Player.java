@@ -19,21 +19,36 @@ public class Player {
 
     public Player(String heroName) {
         switch (heroName) {
-            case "Hero 1":
-                this.speed = 40;
+            case "SHANA":
+                this.speed = 4;
                 this.playerHealth = 4;
+                playerTexture = new Texture("Images/Sprite/Idle/Idle_4 #8316.png");
                 break;
-            case "Hero 2":
-                this.speed = 10;
+            case "DIAMOND":
+                this.speed = 1;
                 this.playerHealth = 7;
+                playerTexture = new Texture("Images/Sprite/Idle/Idle_0 #8326.png");
                 break;
-            case "Hero 3":
-                this.speed = 50;
+            case "SCARLET":
+                this.speed = 5;
                 this.playerHealth = 3;
+                playerTexture = new Texture("Images/Sprite/Idle/Idle_0 #8329.png");
                 break;
+            case "LILITH":
+                this.speed = 3;
+                this.playerHealth = 5;
+                playerTexture = new Texture("Images/Sprite/Idle/Idle_0 #8333.png");
+                break;
+            case "DASHER":
+                this.speed = 10;
+                this.playerHealth = 2;
+                playerTexture = new Texture("Images/Sprite/Idle/Idle_5 #8302.png");
+                break;
+            default:
+                this.speed = 50;
+                this.playerHealth = 100;
+                playerTexture = new Texture("Images/Sprite/Idle/Idle_4 #8316.png");
         }
-        this.weapon=new Weapon("SMG");
-        playerTexture = new Texture(GameAssetManager.getGameAssetManager().getCharacter1_idle0());
         playerSprite = new Sprite(playerTexture);
         posX= (float) Gdx.graphics.getWidth() / 2;
         posY=(float) Gdx.graphics.getHeight() / 2;

@@ -3,6 +3,7 @@ package com.tilldawn.Control;
 import com.badlogic.gdx.Gdx;
 import com.tilldawn.Main;
 import com.tilldawn.Model.GameAssetManager;
+import com.tilldawn.Model.SaveData.UserManager;
 import com.tilldawn.View.*;
 
 public class MainMenuController {
@@ -30,11 +31,23 @@ public class MainMenuController {
             }
 
             if (view.getScoreboardButton().isChecked()) {
-                // TODO: Implement scoreboard view
+                ScoreboardController scoreboardController = new ScoreboardController(new UserManager());
+                Main.getMain().setScreen(new ScoreboardView(scoreboardController ,GameAssetManager.getGameAssetManager().getSkin()));
             }
 
             if (view.getTalentButton().isChecked()) {
-                // TODO: Implement talent view
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new TalentView(
+                        new TalentController(),
+                        GameAssetManager.getGameAssetManager().getSkin()
+                ));
+            }
+
+            if (view.getLogoutButton().isChecked()) {
+                Main.setCurrentUser(null);
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new LoginView(new LoginController(), GameAssetManager.getGameAssetManager().getSkin()));
+
             }
 
             if (view.getExitButton().isChecked()) {

@@ -19,25 +19,32 @@ public class Weapon {
                 this.maxAmmo = 6;
                 this.reloadTime = 1.5f;
                 this.damage = 20;
+                this.weaponSprite = new Sprite(GameAssetManager.getGameAssetManager().getRevolverTexture());
+
                 break;
             case "Shotgun":
                 this.maxAmmo = 2;
                 this.reloadTime = 1.5f;
                 this.damage = 10;
+                this.weaponSprite = new Sprite(GameAssetManager.getGameAssetManager().getShotgun());
+
                 break;
             case "SMG":
                 this.maxAmmo = 24;
                 this.reloadTime = 2.5f;
                 this.damage = 8;
+                this.weaponSprite = new Sprite(GameAssetManager.getGameAssetManager().getSmgTexture());
+
                 break;
             default:
                 this.maxAmmo = 6;
                 this.reloadTime = 1.5f;
                 this.damage = 20;
+                this.weaponSprite = new Sprite(GameAssetManager.getGameAssetManager().getSmgTexture());
+
         }
         this.ammo = maxAmmo;
-        this.weaponSprite = new Sprite(GameAssetManager.getGameAssetManager().getSmgTexture());
-        this.weaponSprite.setSize(50, 50);
+        this.weaponSprite.setSize(100, 100);
         weaponSprite.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
     }
 

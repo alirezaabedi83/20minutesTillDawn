@@ -2,11 +2,9 @@ package com.tilldawn;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tilldawn.Control.LoginController;
 import com.tilldawn.Model.GameAssetManager;
-import com.tilldawn.Model.MusicManager;
 import com.tilldawn.Model.SaveData.User;
 import com.tilldawn.Model.SaveData.UserManager;
 import com.tilldawn.View.LoginView;
@@ -25,7 +23,7 @@ public class Main extends Game {
     public void create() {
         main = this;
         batch = new SpriteBatch();
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/1.mp3"));
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("/home/alireza/20minutesTillDawn/assets/Music/1.mp3"));
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(0.5f);
         backgroundMusic.play();
@@ -62,7 +60,7 @@ public class Main extends Game {
                 currentUser.setAccuracy((int) accuracy);
             }
 
-            currentUser.setLastRound(waveEnded);
+            currentUser.setTimeAlive(waveEnded);
             new UserManager().saveCurrentUser();
         }
 

@@ -1,5 +1,6 @@
 package com.tilldawn.Model;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.tilldawn.Model.Player;
 
@@ -9,7 +10,7 @@ public class ElderBoss extends Enemy {
     private float shieldRadius = 600; // start full-screen
 
     public ElderBoss(float x, float y) {
-        super(x, y, 400, 80, GameAssetManager.getGameAssetManager().getElderMonster());
+        super(x, y, 400, 80, new Texture("Images/Texture2D/ElderBrain/ElderBrain.png"));
     }
 
     @Override

@@ -10,7 +10,6 @@ import com.tilldawn.Model.Weapon;
 import com.tilldawn.View.GameView;
 
 public class GameController {
-    public static final float TOTAL_TIME = 1;
     private GameView view;
     private PlayerController playerController;
     private WorldController worldController;
@@ -24,11 +23,9 @@ public class GameController {
         if (player == null) player = new Player("Hero 1");
         playerController = new PlayerController(player,camera);
         worldController = new WorldController(camera);
-        weaponController = new WeaponController(new Weapon("SMG"), player);
+        weaponController = new WeaponController(player.getWeapon(), player);
         enemySpawner = new EnemySpawner();
         weaponController.setEnemySpawner(enemySpawner);
-
-        // Set up camera
 
     }
 

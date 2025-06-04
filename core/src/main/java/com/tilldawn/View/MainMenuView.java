@@ -18,6 +18,8 @@ public class MainMenuView implements Screen {
     private final TextButton settingsButton;
     private final TextButton scoreboardButton;
     private final TextButton talentButton;
+    private final TextButton logoutButton;
+
     private final TextButton exitButton;
     private final Label welcomeLabel;
     private final Image avatarImage;
@@ -31,9 +33,10 @@ public class MainMenuView implements Screen {
         this.settingsButton = new TextButton("Settings", skin);
         this.scoreboardButton = new TextButton("Scoreboard", skin);
         this.talentButton = new TextButton("Talents", skin);
+        this.logoutButton=new TextButton("logout",skin);
         this.exitButton = new TextButton("Exit", skin);
-        if (Main.getCurrentUser()==null)this.welcomeLabel = new Label("Welcome, guest", skin);
-        else this.welcomeLabel = new Label("Welcome," + Main.getCurrentUser().getUsername(), skin);
+        if (Main.getCurrentUser()==null)this.welcomeLabel = new Label("Welcome, guest" +" ,score: " +Main.getKillCount() , skin);
+        else this.welcomeLabel = new Label("Welcome," + Main.getCurrentUser().getUsername() +"score: " +Main.getKillCount(), skin);
         this.welcomeLabel.setColor(Color.YELLOW);
 
         Texture avatarTexture;
@@ -66,6 +69,7 @@ public class MainMenuView implements Screen {
         buttonTable.add(settingsButton).row();
         buttonTable.add(scoreboardButton).row();
         buttonTable.add(talentButton).row();
+        buttonTable.add(logoutButton).row();
         buttonTable.add(exitButton).row();
 
         // Combine tables
@@ -140,5 +144,9 @@ public class MainMenuView implements Screen {
 
     public Image getAvatarImage() {
         return avatarImage;
+    }
+
+    public TextButton getLogoutButton() {
+        return logoutButton;
     }
 }

@@ -42,15 +42,18 @@ public class PreGameMenuView implements Screen {
 
         // Setup options
         Array<String> heroes = new Array<>();
-        heroes.add("Hero 1");
-        heroes.add("Hero 2");
-        heroes.add("Hero 3");
+        heroes.add("SHANA");
+        heroes.add("DIAMOND");
+        heroes.add("SCARLET");
+        heroes.add("LILITH");
+        heroes.add("DASHER");
         heroSelectBox.setItems(heroes);
+
 
         Array<String> weapons = new Array<>();
         weapons.add("SMG");
         weapons.add("Shotgun");
-        weapons.add("Rifle");
+        weapons.add("Revolver");
         weaponSelectBox.setItems(weapons);
 
         Array<String> durations = new Array<>();
