@@ -10,7 +10,7 @@ public class ElderBoss extends Enemy {
     private float shieldRadius = 600; // start full-screen
 
     public ElderBoss(float x, float y) {
-        super(x, y, 400, 80, new Texture("Images/Texture2D/ElderBrain/ElderBrain.png"));
+        super(x, y, 400, 8, new Texture("Images/Texture2D/ElderBrain/ElderBrain.png"));
     }
 
     @Override

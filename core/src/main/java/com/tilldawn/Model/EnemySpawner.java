@@ -13,6 +13,8 @@ public class EnemySpawner {
     private float bossTimer = 0f;
     private boolean treeSpawned = false;
     private boolean bossSpawned = false;
+    private Array<Drop> drops = new Array<>();
+
 
     private Array<Enemy> enemies = new Array<>();
     private ElectricWall wall = new ElectricWall(1);
@@ -56,11 +58,24 @@ public class EnemySpawner {
         for (int i = enemies.size - 1; i >= 0; i--) {
             Enemy e = enemies.get(i);
             e.update(delta, player);
+            if (!player.getInvincible() && e.getRect().collidesWith(player.getRect())) {
+                player.takeDamage(1);
+                e.setHp(-1);
+
+            }
+
             if (!e.isDead()) {
                 e.draw(Main.getBatch());
             } else {
-                DropManager.spawnDrop(e.getX(), e.getY());
-                enemies.removeIndex(i);
+                if (e.isDead()) {
+                    if (e instanceof ElderBoss) {
+                        wall.setActive(false);
+                    }
+
+                    drops.add(new Drop(e.getX(), e.getY()));
+                    enemies.removeIndex(i);
+                }
+
             }
 
             if (e instanceof ElderBoss && bossSpawned) {
@@ -72,6 +87,28 @@ public class EnemySpawner {
             }
         }
 
+
+        for (Drop drop : drops) {
+            drop.draw(Main.getBatch());
+        }
+
+
+        for (int i = drops.size - 1; i >= 0; i--) {
+            Drop drop = drops.get(i);
+            drop.update(player);
+            if (drop.collidesWithPlayer(player)) {
+                drop.apply(player);
+                drops.removeIndex(i);
+            }
+        }
+
+        wall.draw(Main.getBatch());
+        if (wall.isActive() && wall.isCharacterTouchingWall(player)) {
+            player.takeDamage(1);
+        }
+
+
+
         // 6. آپدیت دیوار الکتریکی
         if (wall.isActive()) wall.update(delta);
     }
@@ -81,6 +118,9 @@ public class EnemySpawner {
     }
 
     private void dashToPlayer(Enemy enemy, Player player) {
+        if (enemy.isDead()) {
+            return;
+        }
         float oldSpeed = enemy.getSpeed();
         enemy.setSpeed(oldSpeed * 10);
         com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {

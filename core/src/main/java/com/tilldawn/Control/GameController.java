@@ -38,6 +38,7 @@ public class GameController {
             weaponController.update(delta);
             enemySpawner.update(delta, playerController.getPlayer());
 
+
             Game.getInstance().incrementElapsedTime(delta);
 
             if (Game.getInstance().getElapsedTime() >= Game.getInstance().getTotalGameTime()) {

@@ -6,13 +6,14 @@ public class Game {
     private static Game instance;
 
     private Player currentPlayer;
-    private float totalGameTime;   // مثلاً 20 * 60
-    private float elapsedTime;     // زمان سپری شده
-    private int wave;              // موج فعلی دشمنان
+    private float totalGameTime;
+    private float elapsedTime;
+    private int wave;
     private boolean isGameOver;
+    private boolean isPaused;
 
     private Game() {
-        reset(); // مقداردهی اولیه
+        reset();
     }
 
     public static Game getInstance() {
@@ -25,6 +26,7 @@ public class Game {
         elapsedTime = 0;
         wave = 0;
         isGameOver = false;
+        isPaused=false;
     }
 
     public Player getCurrentPlayer() {
@@ -73,5 +75,13 @@ public class Game {
 
     public void setGameOver(boolean gameOver) {
         isGameOver = gameOver;
+    }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public void setPaused(boolean paused) {
+        isPaused = paused;
     }
 }

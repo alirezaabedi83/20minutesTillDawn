@@ -53,4 +53,8 @@ public abstract class Enemy {
     public void setSpeed(float speed) {
         this.speed = speed;
     }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
 }

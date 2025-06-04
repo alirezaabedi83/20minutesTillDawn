@@ -22,11 +22,18 @@ public class GameView implements Screen, InputProcessor {
     private Stage stage;
     private OrthographicCamera camera;
     private Skin skin;
+    private BitmapFont font;
+    private OrthographicCamera hudCamera;
 
     public GameView(GameController controller, Skin skin) {
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        this.skin=skin;
         this.controller = controller;
         controller.setView(this,camera);
+        hudCamera = new OrthographicCamera();
+        hudCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        font = new BitmapFont();
     }
 
     @Override
@@ -37,14 +44,8 @@ public class GameView implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
-        // Clear screen
         ScreenUtils.clear(0, 0, 0, 1);
 
-
-        // Update game state
-
-
-        // Begin sprite batch with camera projection
 
         Main.getBatch().begin();
         Main.getBatch().setProjectionMatrix(camera.combined);
@@ -53,42 +54,40 @@ public class GameView implements Screen, InputProcessor {
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
 
-        // WorldController handles background drawing
-        // EnemySpawner handles enemy drawing
-        // PlayerController handles player drawing
-        // WeaponController handles weapon and bullet drawing
-
         Main.getBatch().end();
 
-        // Draw UI (HUD)
-//        drawHUD();
-
-        // Update stage
-
+        drawHUD();
 
     }
 
     private void drawHUD() {
+        Main.getBatch().setProjectionMatrix(hudCamera.combined);
         Main.getBatch().begin();
-        skin.getFont("default").draw(Main.getBatch(),
-                "Health: " + (int)controller.getPlayerController().getPlayer().getPlayerHealth(),
+        font.draw(Main.getBatch(),
+                "Health: " + controller.getPlayerController().getPlayer().getPlayerHealth(),
                 20, Gdx.graphics.getHeight() - 20);
-        skin.getFont("default").draw(Main.getBatch(),
+        font.draw(Main.getBatch(),
                 "Ammo: " + controller.getWeaponController().getWeapon().getAmmo() + "/" +
                         controller.getWeaponController().getWeapon().getMaxAmmo(),
                 20, Gdx.graphics.getHeight() - 50);
-        skin.getFont("default").draw(Main.getBatch(),
+        font.draw(Main.getBatch(),
                 "Time: " + (int)(Game.getInstance().getTotalGameTime() - Game.getInstance().getElapsedTime()) + "s",
                 Gdx.graphics.getWidth() - 150, Gdx.graphics.getHeight() - 20);
-        skin.getFont("default").draw(Main.getBatch(),
-                "Level: " + controller.getPlayerController().getLevel(),
+        font.draw(Main.getBatch(),
+                "Level: " + controller.getPlayerController().getPlayer().getLevel(),
                 Gdx.graphics.getWidth() - 150, Gdx.graphics.getHeight() - 50);
+        font.draw(Main.getBatch(),
+                "xp: " + controller.getPlayerController().getPlayer().getXp(),
+                20, Gdx.graphics.getHeight() - 60);
         Main.getBatch().end();
+        Main.getBatch().setProjectionMatrix(camera.combined);
     }
 
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+
+        hudCamera.setToOrtho(false, width, height);
     }
 
     @Override
@@ -109,6 +108,7 @@ public class GameView implements Screen, InputProcessor {
     @Override
     public void dispose() {
         stage.dispose();
+        font.dispose();
     }
 
     @Override

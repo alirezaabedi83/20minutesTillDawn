@@ -59,24 +59,21 @@ public class ElectricWall {
 
         Texture currentFrame = animation.getKeyFrame(rotation, true);
 
-        float rotation = 0f;
-        float drawWidth = bounds.width;
-        float drawHeight = bounds.height;
+        float x = bounds.x;
+        float y = bounds.y;
+        float width = bounds.width;
+        float height = bounds.height;
 
+        float thickness = wallThickness;
 
-        if (isVerticalWall()) {
-            rotation = 90f;
-
-            drawWidth = bounds.height;
-            drawHeight = bounds.width;
-        }
-
-        float originX = drawWidth / 2f;
-        float originY = drawHeight / 2f;
-
-        batch.begin();
-
-        batch.end();
+        // Top
+        batch.draw(currentFrame, x, y + height - thickness, width, thickness);
+        // Bottom
+        batch.draw(currentFrame, x, y, width, thickness);
+        // Left
+        batch.draw(currentFrame, x, y, thickness, height);
+        // Right
+        batch.draw(currentFrame, x + width - thickness, y, thickness, height);
     }
 
 

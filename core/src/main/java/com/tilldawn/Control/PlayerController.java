@@ -13,11 +13,7 @@ import com.tilldawn.Model.Player;
 public class PlayerController {
     public OrthographicCamera camera;
     private Player player;
-    private boolean isInvincible = false;
-    private float invincibleTimer = 0;
-    private int level = 1;
-    private int experience = 0;
-    private int experienceToNextLevel = 60; // 60 XP for level 1->2
+
 
     public PlayerController(Player player, OrthographicCamera camera){
         this.player = player;
@@ -33,7 +29,7 @@ public class PlayerController {
         player.getPlayerSprite().draw(Main.getBatch());
 
         handlePlayerInput(delta);
-        updateInvincibility(delta);
+        player.updateInvincibility(delta);
 
         if(player.isPlayerIdle()){
 //            idleAnimation();
@@ -41,10 +37,10 @@ public class PlayerController {
     }
 
     private void updateInvincibility(float delta) {
-        if (isInvincible) {
-            invincibleTimer -= delta;
-            if (invincibleTimer <= 0) {
-                isInvincible = false;
+        if (player.getInvincible()) {
+            player.setInvincibleTimeLeft(player.getInvincibleTimeLeft()-delta);
+            if (player.getInvincibleTimeLeft() <= 0) {
+                player.setInvincible(false);
             }
         }
     }
@@ -82,25 +78,13 @@ public class PlayerController {
         player.getRect().move(player.getPosX(), player.getPosY());
     }
 
-    public void takeDamage(int damage) {
-        if (!isInvincible) {
-            player.setPlayerHealth(player.getPlayerHealth() - damage);
-            isInvincible = true;
-            invincibleTimer = 1.0f; // 1 second invincibility
-        }
-    }
 
-    public void gainExperience(int amount) {
-        experience += amount;
-        if (experience >= experienceToNextLevel) {
-            levelUp();
-        }
-    }
+
 
     private void levelUp() {
-        level++;
-        experience -= experienceToNextLevel;
-        experienceToNextLevel = 20 * level + 40; // Formula for next level XP
+//        level++;
+//        player.increaseXp(-experienceToNextLevel);
+//        experienceToNextLevel = 20 * level + 40; // Formula for next level XP
 
         // TODO: Implement ability selection
     }
@@ -129,11 +113,5 @@ public class PlayerController {
         this.player = player;
     }
 
-    public int getLevel() {
-        return level;
-    }
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
 }

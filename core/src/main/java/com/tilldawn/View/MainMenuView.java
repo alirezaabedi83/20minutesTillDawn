@@ -19,6 +19,9 @@ public class MainMenuView implements Screen {
     private final TextButton scoreboardButton;
     private final TextButton talentButton;
     private final TextButton logoutButton;
+    private final TextButton loadButton;
+
+
 
     private final TextButton exitButton;
     private final Label welcomeLabel;
@@ -34,6 +37,7 @@ public class MainMenuView implements Screen {
         this.scoreboardButton = new TextButton("Scoreboard", skin);
         this.talentButton = new TextButton("Talents", skin);
         this.logoutButton=new TextButton("logout",skin);
+        this.loadButton=new TextButton("load game",skin);
         this.exitButton = new TextButton("Exit", skin);
         if (Main.getCurrentUser()==null)this.welcomeLabel = new Label("Welcome, guest" +" ,score: " +Main.getKillCount() , skin);
         else this.welcomeLabel = new Label("Welcome," + Main.getCurrentUser().getUsername() +"score: " +Main.getKillCount(), skin);
@@ -70,6 +74,8 @@ public class MainMenuView implements Screen {
         buttonTable.add(scoreboardButton).row();
         buttonTable.add(talentButton).row();
         buttonTable.add(logoutButton).row();
+        buttonTable.add(loadButton).row();
+
         buttonTable.add(exitButton).row();
 
         // Combine tables

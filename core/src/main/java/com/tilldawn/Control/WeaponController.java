@@ -115,7 +115,9 @@ public class WeaponController {
                     for (Enemy enemy : enemySpawner.getEnemies()) {
                         if (b.getRect().collidesWith(enemy.getRect())) {
                             enemy.takeDamage(b.getDamage());
-                            player.gainExperience(3);
+                            if (enemy.isDead()){
+                                player.increaseKills();
+                            }
 
                             iterator.remove();
                             break;
