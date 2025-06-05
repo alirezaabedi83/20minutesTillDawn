@@ -1247,6 +1247,8 @@ Images/Texture2D/vertical/vertical scrollbar.png
 Images/Texture2D/verticalslider/verticalslider.png
 Images/Texture2D/window/window on.png
 Images/Texture2D/window/window.png
+Light/radialLight.fragment.glsl
+Light/radialLight.vertex.glsl
 Music/1.mp3
 Music/1.ogg
 Music/2.mp3
@@ -1254,6 +1256,8 @@ Music/3.mp3
 background.png
 bullet.png
 libgdx.png
+shaders/default.vert
+shaders/grayscale.frag
 skin/font-export.fnt
 skin/font-subtitle-export.fnt
 skin/font-title-export.fnt

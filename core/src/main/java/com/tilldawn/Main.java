@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tilldawn.Control.LoginController;
 import com.tilldawn.Model.GameAssetManager;
 import com.tilldawn.Model.SaveData.User;
-import com.tilldawn.Model.SaveData.UserManager;
 import com.tilldawn.View.LoginView;
 import com.badlogic.gdx.audio.Music;
 
@@ -51,23 +50,6 @@ public class Main extends Game {
         return batch;
     }
 
-    public static void saveGameProgress(int waveEnded) {
-        if (currentUser != null) {
-            currentUser.setKillCount(currentUser.getKillCount() + killCount);
-
-            if (firedCount != 0) {
-                float accuracy = (float) hitCount / firedCount * 100;
-                currentUser.setAccuracy((int) accuracy);
-            }
-
-            currentUser.setTimeAlive(waveEnded);
-            new UserManager().saveCurrentUser();
-        }
-
-        // Reset counters
-        killCount = hitCount = firedCount = 0;
-    }
-
     public static void setMain(Main main) {
         Main.main = main;
     }
@@ -88,25 +70,6 @@ public class Main extends Game {
         return killCount;
     }
 
-    public static void setKillCount(int killCount) {
-        Main.killCount = killCount;
-    }
-
-    public static int getHitCount() {
-        return hitCount;
-    }
-
-    public static void setHitCount(int hitCount) {
-        Main.hitCount = hitCount;
-    }
-
-    public static int getFiredCount() {
-        return firedCount;
-    }
-
-    public static void setFiredCount(int firedCount) {
-        Main.firedCount = firedCount;
-    }
     public static Music getBackgroundMusic() {
         return main.backgroundMusic;
     }

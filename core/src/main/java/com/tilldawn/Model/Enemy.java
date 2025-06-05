@@ -1,5 +1,6 @@
 package com.tilldawn.Model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,6 +14,11 @@ public abstract class Enemy {
     protected float speed;
     protected Sprite sprite;
     protected CollisionRect rect;
+    private float time=0;
+    private boolean dead = false;
+
+
+
 
     public Enemy(float x, float y, int hp, float speed, Texture texture) {
         this.x = x;
@@ -29,6 +35,31 @@ public abstract class Enemy {
 
     public void takeDamage(int damage) {
         hp -= damage;
+        if (hp <= 0) {
+            dead = true;
+            time = 0;
+        }
+    }
+
+    public void updateDeadAnimation(float delta) {
+        if (dead && !GameAssetManager.getGameAssetManager().getDeadAnimation().isAnimationFinished(time)) {
+            time += delta;
+            sprite.setRegion(GameAssetManager.getGameAssetManager().getDeadAnimation().getKeyFrame(time));
+        }
+    }
+
+
+
+    public void idleAnimation(Enemy enemy,float delta){
+        enemy.getSprite().setRegion(GameAssetManager.getGameAssetManager().getDeadAnimation().getKeyFrame(enemy.getTime()));
+
+        if (!GameAssetManager.getGameAssetManager().getDeadAnimation().isAnimationFinished(enemy.getTime())) {
+            enemy.setTime(enemy.getTime()+delta);
+        }
+        else {
+            enemy.setTime(0);
+        }
+
     }
 
     public boolean isDead() {
@@ -56,5 +87,37 @@ public abstract class Enemy {
 
     public void setHp(int hp) {
         this.hp = hp;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
+
+    public void setRect(CollisionRect rect) {
+        this.rect = rect;
+    }
+
+    public float getTime() {
+        return time;
+    }
+
+    public void setTime(float time) {
+        this.time = time;
     }
 }

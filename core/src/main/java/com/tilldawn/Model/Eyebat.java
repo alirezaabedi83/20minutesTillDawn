@@ -37,7 +37,7 @@ public class Eyebat extends Enemy {
             b.draw();
 
             if (b.collidesWith(player) && !player.getInvincible()) {
-                player.takeDamage(1);
+                player.takeDamage(1,delta);
                 player.setInvincible(true);
                 player.setInvincibleTimeLeft(1f);
                 b.deactivate();

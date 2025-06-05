@@ -75,12 +75,16 @@ public class Player {
                 playerTexture.getWidth() * 3, playerTexture.getHeight() * 3);
     }
 
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage,float delta) {
+
         if (!isInvincible || invincibleTimeLeft <= 0) {
+
             this.playerHealth -= damage;
             isInvincible = true;
             invincibleTimeLeft = 1.0f;
             this.isDamaged = true;
+
+            showAnimation(this,delta);
         }
     }
 
@@ -99,13 +103,17 @@ public class Player {
     public boolean increaseXp(int amount) {
         xp += amount;
         if (xp >= maxLevelXp() + xpToNextLevel(level)) {
-            level++;
-            Game.getInstance().setPaused(true);
-            Game.getInstance().showAbilitySelection();
+            increaseLevel();
 //            SFX.LEVEL.play();
             return true;
         }
         return false;
+    }
+
+    public void increaseLevel(){
+        level++;
+        Game.getInstance().setPaused(true);
+        Game.getInstance().showAbilitySelection();
     }
 
     public int xpToNextLevel(int level) {
@@ -134,6 +142,19 @@ public class Player {
 
     public void increaseKills() {
         kills++;
+    }
+
+    public void showAnimation(Player player,float delta){
+        player.getPlayerSprite().setRegion(GameAssetManager.getGameAssetManager().getDamageAnimation().getKeyFrame(player.getTime()));
+
+        player.setTime(player.getTime()+delta);
+        if (GameAssetManager.getGameAssetManager().getDamageAnimation().isAnimationFinished(player.getTime())) {
+
+            player.setTime(0);
+
+
+            player.getPlayerSprite().setRegion(player.getPlayerTexture());
+        }
     }
 
     // Getters and Setters
@@ -212,5 +233,9 @@ public class Player {
 
     public void setDamaged(boolean damaged) {
         isDamaged = damaged;
+    }
+
+    public void setAbilities(Map<AbilityType, Ability> abilities) {
+        this.abilities = abilities;
     }
 }

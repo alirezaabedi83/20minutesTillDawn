@@ -58,6 +58,30 @@ public class GameController {
                 return;
             }
 
+            if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
+                Game.getInstance().setElapsedTime(Game.getInstance().getElapsedTime()+60);
+                enemySpawner.setGameTime(enemySpawner.getGameTime()+60);
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.Y)) {
+                playerController.getPlayer().increaseLevel();
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.U)) {
+                if (playerController.getPlayer().getPlayerHealth()<3){
+                    playerController.getPlayer().setPlayerHealth(playerController.getPlayer().getPlayerHealth()+2);
+                }
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
+                Game.getInstance().setElapsedTime(Game.getInstance().getTotalGameTime()/2);
+                enemySpawner.setGameTime(Game.getInstance().getTotalGameTime()/2);
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.O)) {
+                playerController.getPlayer().setPlayerHealth(10000);
+            }
+
 
 
             Game.getInstance().incrementElapsedTime(delta);

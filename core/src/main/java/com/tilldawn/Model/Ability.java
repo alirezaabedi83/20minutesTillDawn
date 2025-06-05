@@ -5,7 +5,7 @@ import static com.tilldawn.Model.AbilityType.*;
 public class Ability {
     private AbilityType type;
     private boolean enabled;
-    private float duration; // فقط برای Abilities موقتی مثل DAMAGER یا SPEEDY
+    private float duration;
     private float timeLeft;
 
     public Ability(AbilityType type) {

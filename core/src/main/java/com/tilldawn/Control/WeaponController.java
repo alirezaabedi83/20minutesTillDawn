@@ -1,10 +1,10 @@
 package com.tilldawn.Control;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Timer;
 import com.tilldawn.Main;
 import com.tilldawn.Model.*;
@@ -44,8 +44,10 @@ public class WeaponController {
             }
         }
 
-        // Auto-reload when empty
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+            startReload();
+        }
     }
 
 
@@ -114,9 +116,11 @@ public class WeaponController {
                 if (enemySpawner != null) {
                     for (Enemy enemy : enemySpawner.getEnemies()) {
                         if (b.getRect().collidesWith(enemy.getRect())) {
-                            enemy.takeDamage(b.getDamage());
+                            enemy.takeDamage(weapon.getDamage());
+                            enemyKnockBack(enemy,player);
                             if (enemy.isDead()){
                                 player.increaseKills();
+                                enemy.idleAnimation(enemy,delta);
                             }
 
                             iterator.remove();
@@ -127,36 +131,55 @@ public class WeaponController {
             }
     }
 
+    public void enemyKnockBack(Enemy enemy, Player player) {
+        //ba komak shayan
+        float knockBackDistance = 10f;
+
+        float ex = enemy.getX();
+        float ey = enemy.getY();
+        float px = player.getPosX();
+        float py = player.getPosY();
+
+        if (ex > px && ey == py) {
+            enemy.setX(ex + knockBackDistance);
+        }
+        else if (ex < px && ey == py) {
+
+            enemy.setX(ex - knockBackDistance);
+        }
+        else if (ey > py && ex == px) {
+
+            enemy.setY( ey + knockBackDistance);
+        }
+        else if (ey < py && ex == px) {
+
+            enemy.setY( ey - knockBackDistance);
+        }
+        else if (ex > px && ey > py) {
+
+            enemy.setY(ey + knockBackDistance);
+            enemy.setX(ex + knockBackDistance);
+        }
+        else if (ex > px && ey < py) {
+            enemy.setY(ey - knockBackDistance);
+            enemy.setX(ex + knockBackDistance);
+        }
+        else if (ex < px && ey > py) {
+            enemy.setY(ey + knockBackDistance);
+            enemy.setX(ex - knockBackDistance);
+        }
+        else if (ex < px && ey < py) {
+            enemy.setY(ey - knockBackDistance);
+            enemy.setX(ex - knockBackDistance);
+        }
+        else {
+            enemy.setY(ey + knockBackDistance);
+            enemy.setX(ex + knockBackDistance);
+        }
+    }
+
     public Weapon getWeapon() {
         return weapon;
-    }
-
-    public void setWeapon(Weapon weapon) {
-        this.weapon = weapon;
-    }
-
-    public ArrayList<Bullet> getBullets() {
-        return bullets;
-    }
-
-    public void setBullets(ArrayList<Bullet> bullets) {
-        this.bullets = bullets;
-    }
-
-    public float getReloadTimer() {
-        return reloadTimer;
-    }
-
-    public void setReloadTimer(float reloadTimer) {
-        this.reloadTimer = reloadTimer;
-    }
-
-    public boolean isReloading() {
-        return isReloading;
-    }
-
-    public void setReloading(boolean reloading) {
-        isReloading = reloading;
     }
 
     public Player getPlayer() {

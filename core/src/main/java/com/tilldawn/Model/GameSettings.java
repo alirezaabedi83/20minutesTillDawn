@@ -9,7 +9,9 @@ public class GameSettings {
     private static GameSettings instance;
     private float musicVolume = 0.5f;
     private boolean sfxEnabled = true;
-    private boolean grayscale = false;
+    private boolean grayscale = true;
+    private transient GrayscaleShader grayscaleShader;
+    private float grayscaleIntensity = 1f;
     private String keyUp = "W";
     private String keyDown = "S";
     private String keyLeft = "A";
@@ -17,7 +19,7 @@ public class GameSettings {
 
     private String currentTrackName = "Track 1";
     private Music currentMusic = Main.getBackgroundMusic();
-    private boolean autoReload = true;
+    private boolean autoReload = false;
 
     public boolean isAutoReload() {
         return autoReload;
@@ -30,6 +32,7 @@ public class GameSettings {
 
     private GameSettings() {
         loadMusic(currentTrackName);
+        grayscaleShader = new GrayscaleShader();
     }
 
     public static GameSettings getInstance() {
@@ -54,8 +57,6 @@ public class GameSettings {
         return currentMusic;
     }
 
-    // Getters & Setters
-
     public float getMusicVolume() { return musicVolume; }
     public void setMusicVolume(float volume) { this.musicVolume = volume; }
 
@@ -63,7 +64,18 @@ public class GameSettings {
     public void setSfxEnabled(boolean enabled) { this.sfxEnabled = enabled; }
 
     public boolean isGrayscale() { return grayscale; }
-    public void setGrayscale(boolean grayscale) { this.grayscale = grayscale; }
+    public void setGrayscale(boolean grayscale) {
+        this.grayscale = grayscale;
+    }
+
+    public float getGrayscaleIntensity() { return grayscaleIntensity; }
+    public void setGrayscaleIntensity(float intensity) {
+        this.grayscaleIntensity = intensity;
+    }
+
+    public GrayscaleShader getGrayscaleShader() {
+        return grayscaleShader;
+    }
 
     public String getKeyUp() { return keyUp; }
     public void setKeyUp(String keyUp) { this.keyUp = keyUp; }

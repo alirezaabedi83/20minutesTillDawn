@@ -26,6 +26,17 @@ public class GameAssetManager {
     private final Texture eyebatMonster = new Texture("Images/Sprite/T/T_EyeBat_0.png");
     private final Texture elderMonster = new Texture("Images/Sprite/T/T_TreeMonster_0.png");
 
+    protected Texture texture1=new Texture(Gdx.files.internal("Images/Sprite/HeartAnimation/HeartAnimation_0.png"));
+    protected Texture texture2=new Texture(Gdx.files.internal("Images/Sprite/HeartAnimation/HeartAnimation_1.png"));
+    protected Texture texture3=new Texture(Gdx.files.internal("Images/Sprite/HeartAnimation/HeartAnimation_2.png"));
+    protected Texture texture4=new Texture(Gdx.files.internal("Images/Sprite/HeartAnimation/HeartAnimation_3.png"));
+    private final Animation<Texture> damageAnimation =new Animation<>(0.1f, texture1, texture2, texture3, texture4);
+
+    protected Texture texturee1=new Texture(Gdx.files.internal("Images/Sprite/DeathFX/DeathFX_0.png"));
+    protected Texture texturee2=new Texture(Gdx.files.internal("Images/Sprite/DeathFX/DeathFX_1.png"));
+    protected Texture texturee3=new Texture(Gdx.files.internal("Images/Sprite/DeathFX/DeathFX_2.png"));
+    protected Texture texturee4=new Texture(Gdx.files.internal("Images/Sprite/DeathFX/DeathFX_3.png"));
+    protected final Animation<Texture> deadAnimation=new Animation<>(0.1f, texturee1, texturee2, texturee3, texturee4);
     // Provide getters
     public Texture getTreeMonster() {
         return treeMonster;
@@ -100,5 +111,13 @@ public class GameAssetManager {
 
     public Texture getDualSmgTexture() {
         return dualSmgTexture;
+    }
+
+    public Animation<Texture> getDamageAnimation() {
+        return damageAnimation;
+    }
+
+    public Animation<Texture> getDeadAnimation() {
+        return deadAnimation;
     }
 }

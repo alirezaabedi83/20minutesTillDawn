@@ -59,7 +59,7 @@ public class EnemySpawner {
             Enemy e = enemies.get(i);
             e.update(delta, player);
             if (!player.getInvincible() && e.getRect().collidesWith(player.getRect())) {
-                player.takeDamage(1);
+                player.takeDamage(1,delta);
                 e.setHp(-1);
 
             }
@@ -68,11 +68,13 @@ public class EnemySpawner {
                 e.draw(Main.getBatch());
             } else {
                 if (e.isDead()) {
+                    e.updateDeadAnimation(delta);
                     if (e instanceof ElderBoss) {
                         wall.setActive(false);
                     }
 
                     drops.add(new Drop(e.getX(), e.getY()));
+
                     enemies.removeIndex(i);
                 }
 
@@ -104,7 +106,7 @@ public class EnemySpawner {
 
         wall.draw(Main.getBatch());
         if (wall.isActive() && wall.isCharacterTouchingWall(player)) {
-            player.takeDamage(1);
+            player.takeDamage(1,delta);
         }
 
         if (wall.isActive()) wall.update(delta);
@@ -134,5 +136,69 @@ public class EnemySpawner {
 
     public ElectricWall getWall() {
         return wall;
+    }
+
+    public float getGameTime() {
+        return gameTime;
+    }
+
+    public void setGameTime(float gameTime) {
+        this.gameTime = gameTime;
+    }
+
+    public float getSpawnCheckSimple() {
+        return spawnCheckSimple;
+    }
+
+    public void setSpawnCheckSimple(float spawnCheckSimple) {
+        this.spawnCheckSimple = spawnCheckSimple;
+    }
+
+    public float getSpawnCheckBat() {
+        return spawnCheckBat;
+    }
+
+    public void setSpawnCheckBat(float spawnCheckBat) {
+        this.spawnCheckBat = spawnCheckBat;
+    }
+
+    public float getBossTimer() {
+        return bossTimer;
+    }
+
+    public void setBossTimer(float bossTimer) {
+        this.bossTimer = bossTimer;
+    }
+
+    public boolean isTreeSpawned() {
+        return treeSpawned;
+    }
+
+    public void setTreeSpawned(boolean treeSpawned) {
+        this.treeSpawned = treeSpawned;
+    }
+
+    public boolean isBossSpawned() {
+        return bossSpawned;
+    }
+
+    public void setBossSpawned(boolean bossSpawned) {
+        this.bossSpawned = bossSpawned;
+    }
+
+    public Array<Drop> getDrops() {
+        return drops;
+    }
+
+    public void setDrops(Array<Drop> drops) {
+        this.drops = drops;
+    }
+
+    public void setEnemies(Array<Enemy> enemies) {
+        this.enemies = enemies;
+    }
+
+    public void setWall(ElectricWall wall) {
+        this.wall = wall;
     }
 }

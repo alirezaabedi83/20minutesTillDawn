@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tilldawn.Control.GameController;
 import com.tilldawn.Main;
 import com.tilldawn.Model.Game;
+import com.tilldawn.Model.GameSettings;
 import com.tilldawn.Model.Player;
 import com.tilldawn.Model.Weapon;
 
@@ -45,6 +46,13 @@ public class GameView implements Screen, InputProcessor {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
+
+        if (GameSettings.getInstance().isGrayscale()) {
+            Main.getBatch().setShader(GameSettings.getInstance().getGrayscaleShader().getShader());
+            GameSettings.getInstance().getGrayscaleShader().setIntensity(GameSettings.getInstance().getGrayscaleIntensity());
+        } else {
+            Main.getBatch().setShader(null);
+        }
 
 
         Main.getBatch().begin();
