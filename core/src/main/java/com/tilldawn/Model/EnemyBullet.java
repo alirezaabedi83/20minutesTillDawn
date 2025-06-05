@@ -8,7 +8,7 @@ import com.tilldawn.Main;
 public class EnemyBullet {
     private Sprite sprite;
     private Vector2 velocity;
-    private float speed = 150f;
+    private float speed = 30f;
     private CollisionRect rect;
     private boolean active = true;
 

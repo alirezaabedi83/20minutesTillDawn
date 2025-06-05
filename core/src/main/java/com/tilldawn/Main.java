@@ -23,9 +23,9 @@ public class Main extends Game {
     public void create() {
         main = this;
         batch = new SpriteBatch();
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("/home/alireza/20minutesTillDawn/assets/Music/1.mp3"));
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/1.mp3"));
         backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(0.5f);
+        backgroundMusic.setVolume(1.0f);
         backgroundMusic.play();
         getMain().setScreen(new LoginView(new LoginController(), GameAssetManager.getGameAssetManager().getSkin()));
     }

@@ -65,8 +65,8 @@ public class WeaponController {
     public void handleWeaponShoot(int screenX, int screenY) {
         if (isReloading || weapon.getAmmo() <= 0) return;
 
-//        for (int i = 0; i < 10; i++) {
-            float delay = 1 * 0.1f;
+        for (int i = 0; i < weapon.getProjectile(); i++) {
+            float delay = i * 0.1f;
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
@@ -74,7 +74,7 @@ public class WeaponController {
 //                SFX.SHOOT.play();
                 }
             }, delay);
-//        }
+        }
 
 
         weapon.setAmmo(weapon.getAmmo() - 1);

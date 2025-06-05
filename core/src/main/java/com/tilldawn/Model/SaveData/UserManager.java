@@ -52,6 +52,8 @@ public class UserManager {
 
         User newUser = new User(username, password, securityQuestion, securityAnswer);
         users.add(newUser);
+        this.currentUser = newUser;
+        Main.currentUser = newUser;
         saveUsers();
         return true;
     }
@@ -61,7 +63,7 @@ public class UserManager {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 this.currentUser = user;
                 Main.currentUser = user;
-                saveUsers(); // به‌روزرسانی currentUsername
+                saveUsers();
                 return true;
             }
         }
@@ -87,7 +89,11 @@ public class UserManager {
     }
 
     public void saveCurrentUser() {
-        saveUsers(); // هر تغییری انجام بشه، مستقیماً سیو بشه
+        if (currentUser != null) {
+            users.removeIf(u -> u.getUsername().equals(currentUser.getUsername()));
+            users.add(currentUser);
+            saveUsers();
+        }
     }
 
     public boolean usernameExists(String username) {
@@ -120,4 +126,8 @@ public class UserManager {
         return null;
     }
 
+    public void setCurrentUser(User currentUser) {
+
+        this.currentUser = currentUser;
+    }
 }

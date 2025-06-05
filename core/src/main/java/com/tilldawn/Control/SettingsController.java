@@ -24,7 +24,6 @@ public class SettingsController {
     }
 
     public void handleButtons() {
-        // صدای موزیک
 
         float newVolume = view.getMusicVolumeSlider().getValue() / 100f;
         GameSettings.getInstance().setMusicVolume(newVolume);
@@ -59,7 +58,6 @@ public class SettingsController {
             newMusic.setVolume(GameSettings.getInstance().getMusicVolume());
             newMusic.play();
 
-            // ذخیره در Main
             Main.getMain().setBackgroundMusic(newMusic);
         }
 

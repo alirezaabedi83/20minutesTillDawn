@@ -104,7 +104,6 @@ public class SettingsView implements Screen {
         controller.handleButtons();
     }
 
-    // باقی متدهای اساسی
     @Override public void resize(int width, int height) {}
     @Override public void pause() {}
     @Override public void resume() {}

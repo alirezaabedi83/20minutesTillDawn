@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Player {
     private Texture playerTexture;
     private Sprite playerSprite;
@@ -24,30 +27,37 @@ public class Player {
     private float invincibleTimeLeft;
     private boolean isDamaged;
 
+    private Map<AbilityType, Ability> abilities = new HashMap<>();
+
+    public Map<AbilityType, Ability> getAbilities() {
+        return abilities;
+    }
+
+
     public Player(String heroName) {
         switch (heroName) {
             case "SHANA":
-                this.speed = 4;
+                this.speed = 50;
                 this.playerHealth = 4;
                 playerTexture = new Texture("Images/Sprite/Idle/Idle_4 #8316.png");
                 break;
             case "DIAMOND":
-                this.speed = 1;
+                this.speed = 10;
                 this.playerHealth = 7;
                 playerTexture = new Texture("Images/Sprite/Idle/Idle_0 #8326.png");
                 break;
             case "SCARLET":
-                this.speed = 5;
+                this.speed = 50;
                 this.playerHealth = 3;
                 playerTexture = new Texture("Images/Sprite/Idle/Idle_0 #8329.png");
                 break;
             case "LILITH":
-                this.speed = 3;
+                this.speed = 30;
                 this.playerHealth = 5;
                 playerTexture = new Texture("Images/Sprite/Idle/Idle_0 #8333.png");
                 break;
             case "DASHER":
-                this.speed = 10;
+                this.speed = 100;
                 this.playerHealth = 2;
                 playerTexture = new Texture("Images/Sprite/Idle/Idle_5 #8302.png");
                 break;
@@ -90,6 +100,8 @@ public class Player {
         xp += amount;
         if (xp >= maxLevelXp() + xpToNextLevel(level)) {
             level++;
+            Game.getInstance().setPaused(true);
+            Game.getInstance().showAbilitySelection();
 //            SFX.LEVEL.play();
             return true;
         }

@@ -39,7 +39,7 @@ public class LoginController {
             }
 
             if (view.getGuestButton().isChecked()) {
-                Main.currentUser = null; // Clear any user session
+                Main.currentUser = null;
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new MainMenuView(new MainMenuController(),
                     GameAssetManager.getGameAssetManager().getSkin()));

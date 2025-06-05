@@ -44,7 +44,7 @@ public class MainMenuView implements Screen {
         this.welcomeLabel.setColor(Color.YELLOW);
 
         Texture avatarTexture;
-        if (Main.getCurrentUser()==null)avatarTexture = new Texture(Gdx.files.internal("/home/alireza/20minutesTillDawn/assets/Images/Avatars/3.png"));
+        if (Main.getCurrentUser()==null)avatarTexture = new Texture(Gdx.files.internal("Images/Avatars/3.png"));
         else avatarTexture = new Texture(Gdx.files.internal(Main.getCurrentUser().getAvatarString()));
         skin.add("default-avatar", avatarTexture);
         this.avatarImage = new Image(skin.getDrawable("default-avatar"));

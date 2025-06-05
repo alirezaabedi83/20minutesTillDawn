@@ -1,13 +1,19 @@
 package com.tilldawn.Control;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.tilldawn.Main;
 import com.tilldawn.Model.EnemySpawner;
 import com.tilldawn.Model.Game;
 import com.tilldawn.Model.Player;
+import com.tilldawn.Model.Ability;
+import com.tilldawn.Model.SaveData.User;
+import com.tilldawn.Model.SaveData.UserManager;
 import com.tilldawn.Model.Weapon;
+import com.tilldawn.View.GameOverView;
 import com.tilldawn.View.GameView;
+import com.tilldawn.View.PauseMenuView;
 
 public class GameController {
     private GameView view;
@@ -27,16 +33,31 @@ public class GameController {
         enemySpawner = new EnemySpawner();
         weaponController.setEnemySpawner(enemySpawner);
 
+        Game.getInstance().setController(this);
+
     }
 
     public void updateGame(float delta) {
+        if (Game.getInstance().isPaused()) return;
         if (view != null) {
 
             // Update all systems
             worldController.update();
             playerController.update(delta);
+
+            for (Ability ability : playerController.getPlayer().getAbilities().values()) {
+                ability.update(delta, playerController.getPlayer());
+            }
+
             weaponController.update(delta);
             enemySpawner.update(delta, playerController.getPlayer());
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+                Game.getInstance().setPaused(true);
+                Main.getMain().setScreen(new PauseMenuView(playerController.getPlayer(),this));
+                return;
+            }
+
 
 
             Game.getInstance().incrementElapsedTime(delta);
@@ -53,16 +74,26 @@ public class GameController {
         }
     }
 
-    private void gameOver(boolean won) {
-        // TODO: Show game over screen with stats
-        if (won) {
-            System.out.println("You survived! Congratulations!");
-        } else {
-            System.out.println("Game Over - You died!");
+    public void gameOver(boolean won) {
+        Player player = Game.getInstance().getCurrentPlayer();
+        int timeAlive = (int) Game.getInstance().getElapsedTime();
+        int kills = player.getKills();
+        int score = timeAlive * kills;
+
+        User user= Main.getCurrentUser();
+        if (user!= null) {
+            user.setTimeAlive(timeAlive);
+            user.setKillCount(kills);
+            user.setScore(score);
+
+            UserManager userManager=new UserManager();
+            userManager.setCurrentUser(user);
+            userManager.saveCurrentUser();
         }
+
+        Main.getMain().setScreen(new GameOverView(won, player,timeAlive));
     }
 
-    // ... getters for controllers ...
 
 
     public GameView getView() {

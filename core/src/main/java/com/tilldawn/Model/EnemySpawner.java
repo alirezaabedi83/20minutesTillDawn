@@ -17,7 +17,7 @@ public class EnemySpawner {
 
 
     private Array<Enemy> enemies = new Array<>();
-    private ElectricWall wall = new ElectricWall(1);
+    private ElectricWall wall = new ElectricWall(50);
 
     public void update(float delta, Player player) {
         gameTime += delta;
@@ -107,9 +107,6 @@ public class EnemySpawner {
             player.takeDamage(1);
         }
 
-
-
-        // 6. آپدیت دیوار الکتریکی
         if (wall.isActive()) wall.update(delta);
     }
 

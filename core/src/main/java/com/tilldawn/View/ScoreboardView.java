@@ -63,7 +63,6 @@ public class ScoreboardView implements Screen {
         buttonTable.row().padTop(15);
         buttonTable.add(backButton).colspan(4).padBottom(30);
 
-        // جدول داده‌ها (امتیازات)
         dataTable = new Table();
 
         mainTable.top();

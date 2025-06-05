@@ -10,6 +10,7 @@ public class Weapon {
     private int maxAmmo;
     private float reloadTime;
     private int damage;
+    private int projectile;
     private String type;
 
     public Weapon(String type) {
@@ -19,6 +20,7 @@ public class Weapon {
                 this.maxAmmo = 6;
                 this.reloadTime = 1.5f;
                 this.damage = 20;
+                this.projectile=1;
                 this.weaponSprite = new Sprite(GameAssetManager.getGameAssetManager().getRevolverTexture());
 
                 break;
@@ -26,6 +28,7 @@ public class Weapon {
                 this.maxAmmo = 2;
                 this.reloadTime = 1.5f;
                 this.damage = 10;
+                this.projectile=4;
                 this.weaponSprite = new Sprite(GameAssetManager.getGameAssetManager().getShotgun());
 
                 break;
@@ -33,6 +36,7 @@ public class Weapon {
                 this.maxAmmo = 24;
                 this.reloadTime = 2.5f;
                 this.damage = 8;
+                this.projectile=1;
                 this.weaponSprite = new Sprite(GameAssetManager.getGameAssetManager().getSmgTexture());
 
                 break;
@@ -40,6 +44,7 @@ public class Weapon {
                 this.maxAmmo = 6;
                 this.reloadTime = 1.5f;
                 this.damage = 20;
+                this.projectile=1;
                 this.weaponSprite = new Sprite(GameAssetManager.getGameAssetManager().getSmgTexture());
 
         }
@@ -56,4 +61,32 @@ public class Weapon {
     public float getReloadTime() { return reloadTime; }
     public int getDamage() { return damage; }
     public String getType() { return type; }
+
+    public void setWeaponSprite(Sprite weaponSprite) {
+        this.weaponSprite = weaponSprite;
+    }
+
+    public void setMaxAmmo(int maxAmmo) {
+        this.maxAmmo = maxAmmo;
+    }
+
+    public void setReloadTime(float reloadTime) {
+        this.reloadTime = reloadTime;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getProjectile() {
+        return projectile;
+    }
+
+    public void setProjectile(int projectile) {
+        this.projectile = projectile;
+    }
 }

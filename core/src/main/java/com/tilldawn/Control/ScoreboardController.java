@@ -21,7 +21,7 @@ public class ScoreboardController {
     public void setView(ScoreboardView view) {
         this.view = view;
         view.setController(this);
-        loadAndRender("score"); // پیش‌فرض مرتب‌سازی
+        loadAndRender("score");
     }
 
     public void loadAndRender(String sortBy) {

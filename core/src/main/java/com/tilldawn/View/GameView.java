@@ -78,7 +78,7 @@ public class GameView implements Screen, InputProcessor {
                 Gdx.graphics.getWidth() - 150, Gdx.graphics.getHeight() - 50);
         font.draw(Main.getBatch(),
                 "xp: " + controller.getPlayerController().getPlayer().getXp(),
-                20, Gdx.graphics.getHeight() - 60);
+                20, Gdx.graphics.getHeight() - 70);
         Main.getBatch().end();
         Main.getBatch().setProjectionMatrix(camera.combined);
     }

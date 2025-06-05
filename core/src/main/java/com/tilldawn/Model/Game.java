@@ -1,6 +1,9 @@
 package com.tilldawn.Model;
 
+import com.tilldawn.Control.GameController;
+import com.tilldawn.Main;
 import com.tilldawn.Model.Player;
+import com.tilldawn.View.AbilitySelectionView;
 
 public class Game {
     private static Game instance;
@@ -11,6 +14,30 @@ public class Game {
     private int wave;
     private boolean isGameOver;
     private boolean isPaused;
+    private GameController controller;
+    private boolean isBWMode = false;
+
+    public void toggleBWMode() {
+        isBWMode = !isBWMode;
+    }
+
+    public boolean isBWMode() {
+        return isBWMode;
+    }
+
+    public void saveGame() {
+        System.out.println("Game saved.");
+    }
+
+
+    public void setController(GameController controller) {
+        this.controller = controller;
+    }
+
+    public GameController getController() {
+        return controller;
+    }
+
 
     private Game() {
         reset();
@@ -86,5 +113,10 @@ public class Game {
 
     public void setPaused(boolean paused) {
         isPaused = paused;
+    }
+
+    public void showAbilitySelection() {
+        Main.getMain().setScreen(new AbilitySelectionView(currentPlayer, controller));
+
     }
 }
