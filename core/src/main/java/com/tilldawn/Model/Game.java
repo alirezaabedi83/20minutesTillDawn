@@ -17,9 +17,12 @@ public class Game {
     }
 
     public static Game getInstance() {
-        if (instance == null) instance = new Game();
+        if (instance == null) {
+            instance = new Game();
+        }
         return instance;
     }
+
 
     public void reset() {
         totalGameTime = 20 * 60;
